@@ -356,6 +356,10 @@ impl<S> TlsStream<S> {
     pub fn get_mut(&mut self) -> &mut S {
         self.0.get_mut()
     }
+
+    pub fn ssl(&self) -> &ssl::SslRef {
+        self.0.ssl()
+    }
 }
 
 impl<S: io::Read + io::Write> TlsStream<S> {

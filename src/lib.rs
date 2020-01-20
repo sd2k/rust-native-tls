@@ -122,6 +122,9 @@ mod imp;
 #[path = "imp/openssl.rs"]
 mod imp;
 
+#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+pub extern crate openssl;
+
 #[cfg(test)]
 mod test;
 
@@ -622,6 +625,11 @@ impl<S> TlsStream<S> {
     /// Returns a mutable reference to the inner stream.
     pub fn get_mut(&mut self) -> &mut S {
         self.0.get_mut()
+    }
+
+    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+    pub fn ssl(&self) -> &openssl::ssl::SslRef {
+        self.0.ssl()
     }
 }
 
